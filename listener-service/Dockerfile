@@ -1,6 +1,6 @@
 FROM node:16
 
-WORKDIR /media/snehith/New Volume/Syook/listener-service
+WORKDIR /listener-service
 
 COPY package*.json ./
 
