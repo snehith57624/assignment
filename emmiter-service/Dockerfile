@@ -1,6 +1,6 @@
 FROM node:16
 
-WORKDIR /media/snehith/New Volume/Syook/emmiter-service
+WORKDIR /emmiter-service
 
 COPY package*.json ./
 
