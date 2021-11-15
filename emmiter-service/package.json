@@ -1,0 +1,19 @@
+{
+  "name": "emmiter-service",
+  "version": "1.0.0",
+  "description": "Emmits encrypted data streams seperated by |",
+  "author": "snehith",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "fs": "0.0.1-security",
+    "mongodb": "^4.1.0",
+    "socket.io": "^4.3.2",
+    "ws": "^8.0.0"
+  }
+}

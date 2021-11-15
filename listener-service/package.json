@@ -1,0 +1,24 @@
+{
+  "name": "listener-service",
+  "version": "1.0.0",
+  "description": "Connects ws server to get messages for emmiter services,decrypts data and saves it to db",
+  "author": "snehith",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "html": "^1.0.0",
+    "http": "^0.0.1-security",
+    "jsdom": "^18.1.0",
+    "mongodb": "^4.1.0",
+    "path": "^0.12.7",
+    "socket.io": "^4.3.2",
+    "url": "^0.11.0",
+    "ws": "^8.0.0"
+  }
+}
