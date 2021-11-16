@@ -5,6 +5,48 @@
             border:1px solid black;
         }
     </style>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+
+    <script type="text/javascript">
+      var interval = setInterval(function(){
+        var apiUrl = 'http://localhost:8000/data';
+        fetch(apiUrl).then(response => {
+          console.log(response);
+          return response.json();
+        }).then(data => {
+          // Work with JSON data here
+          console.log(data);
+          addData(data);
+        }).catch(err => {
+          // Do something for an error here
+        });
+        }, 50000);
+
+        function addData(Message) {
+          var decryptedMessage = Message['values']
+          var a = document.getElementById('rowData');
+          // console.log("element");
+          console.log(a);
+          var val = "";
+          for (let index = 0; index < 10; index++) {
+            console.log(index);
+            const element = array[index];
+            val = val+"<tr> <td>"+element['name']+"</td> <td> "+element['origin']+""+"</td> <td> "+element['origin']+"</td> </tr>";
+            // let newrow = a.insertRow(index);
+            // var cell1 = newrow.insertCell(0);
+            // var cell2 = newrow.insertCell(1);
+            // var cell3 = newrow.insertCell(2);
+
+            // cell1.innerHTML = element['name'],
+            // cell2.innerHTML = element['origin'],
+            // cell3.innerHTML = element['destination'];
+            
+          }
+          document.getElementById('rowData').innerHTML = document.getElementById('rowData').innerHTML + val;
+        }
+
+    </script>
   <head>
     <meta charset="utf-8">
     <title>Home Page</title>
@@ -13,12 +55,16 @@
 
 
     <table id="messagestable">
+      <thead>
         <tr>
             <th>Name</th>
             <th>Origin</th>
             <th>Destination</th>
         </tr>
+      </thead>
+      <tbody id="rowData">
         
+      </tbody>
     </table>
   </body>
 </html>

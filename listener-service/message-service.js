@@ -25,7 +25,7 @@ export function decryptMessage(message) {
     );
     decryptedData = decryptedData + decipher.final("utf8");
 
-    console.log("Decrypted Data:", decryptedData, "\n");
+    // console.log("Decrypted Data:", decryptedData, "\n");
 
     return decryptedData;
   } catch (err) {

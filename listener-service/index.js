@@ -1,4 +1,5 @@
 import { WebSocketServer } from "ws";
+
 import dotenv from "dotenv";
 import url from "url";
 import http from "http";
@@ -15,44 +16,38 @@ import jsdom from "jsdom";
 dotenv.config();
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import express from 'express';
+import cors from 'cors';
 // const require = createRequire(import.meta.url);
 const __filename = fileURLToPath(import.meta.url);
-
+// var clientio  = require('socket.io-client');         // this is the socket.io client
+// var client    = clientio.connect(process.env.REACT_SOCKET);
 const __dirname = dirname(__filename);
 const { JSDOM } = jsdom;
 global.document = new JSDOM(html).window.document;
-
+const app = express();
 // __dirname = path.resolve(path.dirname(''));
-const server = http.createServer((req,res)=>{
-  const pathName = req.url;
-  console.log(req.url);
-  const val = url.parse(req.url);
-  // console.log(__dirname);
-  // res.writeHead(200, {'Content-type':'text/html'});
-  // res.writeHead(200, {'Content-type':'application/json'});
-  res.writeHead(200, {"Content-Type": "text/html"});
 
-  fs.createReadStream(path.resolve(__dirname, 'view.html')) 
-    .pipe(res);
-});
-function addData(decryptedMessage,index) {
-  var a = document.getElementById('messagestable');
-  console.log("element");
-  console.log(a);
-  let newrow = a.insertRow(index);
-  var cell1 = newrow.insertCell(0);
-  var cell2 = newrow.insertCell(1);
-  var cell3 = newrow.insertCell(2);
 
-  cell1.innerHTML = decryptedMessage['name'],
-  cell2.innerHTML = decryptedMessage['origin'],
-  cell3.innerHTML = decryptedMessage['destination'];
-}
 // const io = require("socket.io")(server);
-const io = new WebSocketServer({ port: process.env.SOCKET_PORT });
+var messages = []
+const io = new WebSocketServer({ port: process.env.SOCKET_PORT },{origins:'*'});
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 // For legacy browser support
+}
+app.get('/',function(req,res) {
+  res.sendFile(path.join(__dirname+'/view.html'));
+});
+app.get('/data',function(req,res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify({ 'values': messages }));
+});
+app.use(cors());
+const server = http.createServer(app);
+// console.log();
 
-console.log();
-var index = 1;
+// var index = 1;
 server.listen(8000,()=>{
   console.log("listening to port");
   io.on("connection", (ws) => {
@@ -69,8 +64,11 @@ server.listen(8000,()=>{
             decryptedMessage["timestamp"] = new Date(); // deleted hash and added timestamp to save to db
             let endDateTime = new Date();
             msgBatchToSave.push(decryptedMessage);
+            messages.push(decryptedMessage);
+            console.log("working");
             // addData(decryptedMessage,index)
-            index = index + 1;
+            // client.emit('reactData',"hi");
+            // index = index + 1;
             // res.sendFile('static/view.html', {root: __dirname })
             if (endDateTime.getTime() - startDateTime.getTime() > 60) {
               // if time diff 1 min 60 ms = 0.000 1m
